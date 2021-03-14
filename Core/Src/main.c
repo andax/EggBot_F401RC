@@ -30,6 +30,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include "segger_rtt.h"
 #include "stepper.h"
 #include "servo.h"
 /* USER CODE END Includes */
@@ -63,10 +65,7 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int __io_putchar(int ch) {
-    ITM_SendChar(ch);
-    return ch;
-}
+
 /* USER CODE END 0 */
 
 /**
@@ -104,6 +103,14 @@ int main(void)
   MX_FATFS_Init();
   MX_TIM9_Init();
   /* USER CODE BEGIN 2 */
+
+  // Added a sprintf call here in main to ensure it preallocates memory in the main thread.
+  // If sprintf is used in another thread for the first time it generates a hard fault exception
+  char s[40];
+  float pi = 3.14159265;
+  sprintf(&s[0],"PI: %f\n", pi);
+
+  SEGGER_RTT_WriteString(0, "Eggbot - Starting\r\n\r\n");
 
   Servo_Init();   // Start RC PWM Generation
   Stepper_Init(); // Initialize Stepper Motors

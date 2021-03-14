@@ -91,8 +91,8 @@ void FillStepperDMABuffer(uint16_t start_ix, uint16_t stop_ix)
 			if (event.status == osEventMessage)
 			{
 				pMotion = event.value.p;
-				Motor1_TargetPos = pMotion->axis1;
-				Motor2_TargetPos = pMotion->axis2;
+				Motor1_TargetPos += pMotion->axis1;
+				Motor2_TargetPos += pMotion->axis2;
 
 				float duration = pMotion->duration/1000.0f;
 				Motor1_Step_Delta = fabs(duration/(Motor1_TargetPos - Motor1_CurrentPos));

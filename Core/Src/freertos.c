@@ -187,20 +187,14 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
-	  printf("Red\r\n");
-	  ITM_SendChar('R');
 	  ledRed = true;
 	  osDelay(500);
 	  ledRed = false;
 	  osDelay(500);
-	  printf("Green\r\n");
-	  ITM_SendChar('G');
 	  ledGreen = true;
 	  osDelay(500);
 	  ledGreen = false;
 	  osDelay(500);
-	  printf("Blue\r\n");
-	  ITM_SendChar('B');
 	  ledBlue = true;
 	  osDelay(500);
 	  ledBlue = false;

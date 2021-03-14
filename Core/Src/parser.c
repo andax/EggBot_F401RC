@@ -16,6 +16,7 @@
 #include "stepper.h"
 #include "servo.h"
 #include "usbd_cdc_if.h"
+#include "segger_rtt.h"
 
 #define RX_CMD_BUFFER_LEN 100
 
@@ -32,6 +33,10 @@ void Parse_Command()
 	int32_t value1 = 0;
 	int32_t value2 = 0;
 	int32_t value3 = 0;
+
+	SEGGER_RTT_WriteString(0, (const char*)rx_cmd_buffer);
+	SEGGER_RTT_WriteString(0, "\r\n");
+
 
 	cmd_token = (rx_cmd_buffer[0] << 8) + rx_cmd_buffer[1];
 	if (rx_cmd_buffer[1] == ',' || rx_cmd_buffer[1] == 0) // Check if we have received a one letter command
@@ -158,5 +163,6 @@ void Command_OnReceive(uint8_t* Buf, uint16_t Len)
 void TransmitMsg(char* msg)
 {
 	CDC_Transmit_FS((uint8_t*)msg, strlen(msg));
+	SEGGER_RTT_WriteString(0, msg);
 }
 
